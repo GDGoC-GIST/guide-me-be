@@ -1,3 +1,13 @@
+auth:
+  oidc:
+    issuer: https://idp.gistory.me
+    authorize-uri: https://idp.gistory.me/authorize
+    token-uri: https://api.idp.gistory.me/oauth/token
+    client-id: guide_me
+    client-secret: secret
+    redirect-uri: https://api.guide-me.com/api/auth/callback
+    jwks-uri: https://api.idp.gistory.me/oauth/certs
+
 spring:
   application:
     name: auth-service
@@ -5,3 +15,7 @@ spring:
 jwt:
   secret: 1111
   issuer: guide-me-auth
+
+server:
+  port: 9000
+

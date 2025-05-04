@@ -1,99 +1,89 @@
 package guideme.authservice.service.auth;
 
-import guideme.authservice.domain.user.model.User;
+import com.nimbusds.jwt.JWTClaimsSet;
+import guideme.authservice.domain.user.model.UserDto;
 import guideme.authservice.infrastructure.dto.TokenPairResponse;
 import guideme.authservice.infrastructure.dto.response.login.LoginRedirectionResponse;
 import guideme.authservice.infrastructure.dto.response.user.UserLoginResponse;
-import guideme.authservice.infrastructure.dto.user.LoginAccessUser;
-import guideme.authservice.infrastructure.dto.user.UserInfoChecker;
+import guideme.authservice.service.auth.user.UserClient;
 import guideme.authservice.service.token.TokenService;
-import guideme.authservice.util.id.IdHolder;
-import java.util.Map;
+import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import javax.cache.Cache;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    private static final String OAUTH_SECRET = "secret";
-    private static final String OAUTH_CLIENT_NAME = "guide_me";
-    private static final String REDIRECT_URI = "https://api.guide-me.com/api/auth/callback";
-    private static final String TOKEN_URL = "https://api.idp.gistory.me/oauth2/token";
-    private static final String AUTHORIZE_URL = "https://idp.gistory.me/authorize";
-    private static final String GRENT_TYPE = "authorization_code";
-    private static final String ACCESS_TOKEN_KEY = "access_token";
-    private final IdHolder idHolder;
-    private final UserChecker userChecker;
     private final TokenService tokenService;
-    private final RestTemplate restTemplate;
 
-    public AuthService(IdHolder idHolder, UserChecker userChecker, TokenService tokenService) {
-        this.idHolder = idHolder;
-        this.userChecker = userChecker;
-        this.tokenService = tokenService;
-        this.restTemplate = new RestTemplate();
-    }
+    private final Cache<String, StatePayload> oauthStateCache;
+
+
+    private final IdTokenValidator idTokenValidator;
+    private final OidcTokenClient oidcTokenClient;
+    private final OidcAuthService oidcAuthService;
+    private final UserClient userClient;
+
 
     public LoginRedirectionResponse getLoginUrl() {
-        String state = idHolder.generate();
-        String nonce = idHolder.generate();
-        String redirectionUrl = String.format(
-                "%s?response_type=code&client_id=%s&scope=openid%20profile&state=%s&redirect_uri=%s&prompt=none",
-                AUTHORIZE_URL, OAUTH_CLIENT_NAME, state, REDIRECT_URI);
-        return new LoginRedirectionResponse(redirectionUrl);
+        try {
+            return oidcAuthService.buildRedirect();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException("no supported algorithm", e);
+        }
     }
 
     public UserLoginResponse getAccessToken(String code, String state) {
-        // TODO: 저장된 state와 전달받은 state값을 비교 및 검증
-        HttpEntity<LinkedMultiValueMap<String, String>> requestEntity = buildTokenRequestEntity(code);
-        ResponseEntity<Map> response = restTemplate.postForEntity(TOKEN_URL, requestEntity, Map.class);
-        return extractAccessTokenAndLoginResponse(response);
+        StatePayload payload = oauthStateCache.get(state);
+        if (payload == null) {
+            throw new IllegalArgumentException("state가 잘못되었습니다.");
+        }
+        try {
+            ResponseEntity<TokenResponse> response = oidcTokenClient.exchangeCode(code, payload);
+            return extractAccessTokenAndLoginResponse(response, payload);
+        } finally {
+            oauthStateCache.remove(state);
+        }
     }
 
-    private UserLoginResponse extractAccessTokenAndLoginResponse(ResponseEntity<Map> response) {
+    private UserLoginResponse extractAccessTokenAndLoginResponse(ResponseEntity<TokenResponse> response,
+                                                                 StatePayload payload) {
+        String idToken = validateResponseAndExtractIdToken(response);
+        JWTClaimsSet claims = idTokenValidator.validate(idToken, payload.nonce());
+        return buildLoginResponseFromClaims(claims);
+    }
+
+    private String validateResponseAndExtractIdToken(ResponseEntity<TokenResponse> response) {
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
-            log.error("Failed to retrieve access token. Response: {}", response);
-            throw new IllegalArgumentException("Failed to retrieve access token.");
+            throw new IllegalArgumentException("Failed to retrieve token.");
         }
-        Map<?, ?> body = response.getBody();
-        Object tokenObj = body.get(ACCESS_TOKEN_KEY);
-        if (tokenObj instanceof String) {
-            return getUserLoginResponse((String) tokenObj);
+        TokenResponse body = response.getBody();
+        if (body == null) {
+            throw new IllegalArgumentException("response body is null");
         }
-        log.error("Access token missing in the response body: {}", body);
-        throw new IllegalArgumentException("Access token retrieval error.");
+        String idToken = body.id_token();
+        if (idToken == null) {
+            throw new IllegalArgumentException("토큰 응답에 access_token 또는 id_token이 없습니다.");
+        }
+        return idToken;
     }
 
-    private HttpEntity<LinkedMultiValueMap<String, String>> buildTokenRequestEntity(String code) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.setBasicAuth(OAUTH_CLIENT_NAME, OAUTH_SECRET);
-
-        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", GRENT_TYPE);
-        params.add("code", code);
-        params.add("redirect_url", REDIRECT_URI);
-
-        return new HttpEntity<>(params, headers);
+    private UserLoginResponse buildLoginResponseFromClaims(JWTClaimsSet claims) {
+        try {
+            String email = claims.getStringClaim("email");
+            String studentId = claims.getStringClaim("studentid");
+            UserDto userDto = userClient.findOrSignUp(email, studentId);
+            TokenPairResponse tokenPair = tokenService.generateTokenPair(userDto);
+            return UserLoginResponse.of(userDto, tokenPair, userDto.getUserRole().equals("pending"));
+        } catch (ParseException e) {
+            throw new IllegalStateException("parseError");
+        }
     }
 
-    public UserLoginResponse getUserLoginResponse(String accessToken) {
-        LoginAccessUser accessUser = userChecker.getUserInfo(accessToken);
-        UserInfoChecker userInfoCheck = userChecker.getUserInfoCheck(accessUser);
-        User user = User.fromChecker(userInfoCheck);
-        TokenPairResponse tokenPairResponse = tokenService.generateTokenPair(user);
-        return createUserLoginResponse(user, tokenPairResponse);
-    }
-
-    private UserLoginResponse createUserLoginResponse(User user, TokenPairResponse tokenPairResponse) {
-        boolean isPending = user.getUserRole().equals("pending");
-        return UserLoginResponse.of(user, tokenPairResponse, isPending);
-    }
 }

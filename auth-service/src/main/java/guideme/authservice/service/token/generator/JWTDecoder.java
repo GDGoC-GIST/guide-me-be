@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 public class JWTDecoder {
 
     @Value("${jwt.secret}")
-    private final String secret;
+    private String secret;
     @Value("${jwt.issuer}")
-    private final String issuer;
+    private String issuer;
 
     public DecodedJWT decode(String tokenValue) {
         Algorithm algorithm = Algorithm.HMAC256(secret);

@@ -1,4 +1,4 @@
-package guideme.authservice.service.auth;
+package guideme.authservice.service.auth.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guideme.authservice.infrastructure.dto.user.LoginAccessUser;

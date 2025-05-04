@@ -33,9 +33,4 @@ public class AuthController {
         UserLoginResponse accessToken = authService.getAccessToken(code, state);
         return GlobalResponse.success(accessToken, 200);
     }
-
-//    @PostMapping("/refresh")
-//    public void createNewAccessToken() {
-//
-//    }
 }
