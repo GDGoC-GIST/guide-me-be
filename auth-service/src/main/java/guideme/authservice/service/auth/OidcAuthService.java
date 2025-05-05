@@ -25,8 +25,8 @@ public class OidcAuthService {
         String state = idHolder.generate();
         String nonce = idHolder.generate();
         String codeVerifier = idHolder.generate();
-        String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(
-                MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8)));
+//        String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(
+//                MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8)));
 
         oauthStateCache.put(state, new StatePayload(nonce, codeVerifier, prop.getRedirectUri(), Instant.now()));
 
@@ -37,8 +37,8 @@ public class OidcAuthService {
                 .queryParam("state", state)
                 .queryParam("nonce", nonce)
                 .queryParam("redirect_uri", prop.getRedirectUri())
-                .queryParam("code_challenge", codeChallenge)
-                .queryParam("code_challenge_method", "S256")
+//                .queryParam("code_challenge", codeChallenge)
+//                .queryParam("code_challenge_method", "S256")
                 .queryParam("prompt", "consent")
                 .build()
                 .encode()

@@ -28,7 +28,7 @@ public class OidcTokenClient {
         body.add("grant_type", "authorization_code");
         body.add("code", code);
         body.add("redirect_uri", s.redirectUri());
-        body.add("code_verifier", s.codeVerifier());
+//        body.add("code_verifier", s.codeVerifier());
 
         HttpHeaders h = new HttpHeaders();
         h.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
