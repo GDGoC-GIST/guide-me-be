@@ -5,7 +5,7 @@ auth:
     token-uri: https://api.idp.gistory.me/oauth/token
     client-id: guide_me
     client-secret: secret
-    redirect-uri: https://api.guide-me.com/api/auth/callback
+    redirect-uri: https://api.guide-me.com/api/auth/login/callback
     jwks-uri: https://api.idp.gistory.me/oauth/certs
 
 spring:
@@ -19,3 +19,9 @@ jwt:
 server:
   port: 9000
 
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

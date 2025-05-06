@@ -28,4 +28,8 @@ public class TokenService {
                 refreshToken.getRole());
         return new TokenPairResponse(accessTokenValue, refreshTokenValue);
     }
+
+    public Token read(String tokenValue) {
+        return tokenReader.handle(tokenValue);
+    }
 }
