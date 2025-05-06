@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class User {
+public class UserDto {
     private final String userId;
     private final String userRole;
     private final String studentId;
@@ -18,7 +18,7 @@ public class User {
     private final String nickname;
 
     @Builder(access = AccessLevel.PACKAGE)
-    private User(String userId, String userRole, String studentId, String email, String nickname, int semester) {
+    private UserDto(String userId, String userRole, String studentId, String email, String nickname, int semester) {
         this.userId = userId;
         this.userRole = userRole;
         this.studentId = studentId;
@@ -27,16 +27,16 @@ public class User {
         this.semester = semester;
     }
 
-    public static User fromChecker(UserInfoChecker checker) {
+    public static UserDto fromChecker(UserInfoChecker checker) {
         if (checker.getUserRole().equals("pending")) {
-            return User.builder()
+            return UserDto.builder()
                     .userRole(checker.getUserRole())
                     .email(checker.getEmail())
                     .userId(checker.getUserId())
                     .studentId(checker.getStudentId())
                     .build();
         }
-        return User.builder()
+        return UserDto.builder()
                 .userRole(checker.getUserRole())
                 .email(checker.getEmail())
                 .userId(checker.getUserId())

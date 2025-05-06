@@ -1,7 +1,7 @@
 package guideme.authservice.infrastructure.dto.response.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import guideme.authservice.domain.user.model.User;
+import guideme.authservice.domain.user.model.UserDto;
 import guideme.authservice.infrastructure.dto.TokenPairResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,29 +15,29 @@ public class UserLoginResponse {
 
     private final String returnType;
     @JsonProperty("userInfo")
-    private final User user;
+    private final UserDto userDto;
     @JsonProperty("token")
     private final TokenPairResponse tokenPairResponse;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private UserLoginResponse(String returnType, TokenPairResponse tokenPairResponse, User user) {
+    private UserLoginResponse(String returnType, TokenPairResponse tokenPairResponse, UserDto userDto) {
         this.returnType = returnType;
         this.tokenPairResponse = tokenPairResponse;
-        this.user = user;
+        this.userDto = userDto;
     }
 
-    public static UserLoginResponse of(User user, TokenPairResponse tokenPairResponse, boolean isSignUp) {
+    public static UserLoginResponse of(UserDto userDto, TokenPairResponse tokenPairResponse, boolean isSignUp) {
         if (isSignUp) {
             return UserLoginResponse.builder()
                     .returnType(SIGN_UP)
                     .tokenPairResponse(tokenPairResponse)
-                    .user(user)
+                    .userDto(userDto)
                     .build();
         }
         return UserLoginResponse.builder()
                 .returnType(SIGN_IN)
                 .tokenPairResponse(tokenPairResponse)
-                .user(user)
+                .userDto(userDto)
                 .build();
     }
 }
