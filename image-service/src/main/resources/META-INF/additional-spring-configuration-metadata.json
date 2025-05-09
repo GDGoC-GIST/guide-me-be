@@ -1,0 +1,10 @@
+{"properties": [{
+  "name": "firebase.bucket-name",
+  "type": "java.lang.String",
+  "description": "파이어 베이스 버켓 이름"
+},
+{
+    "name": "firebase.url-format",
+    "type": "java.lang.String",
+    "description": "파이어 베이스 저장 url 형식"
+  }]}

@@ -6,12 +6,16 @@ import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.FileInputStream;
 //import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
+
+    @Value("${firebase.bucket-name}")
+    private String bucketName;
 
     @PostConstruct
     public void initialize() {
@@ -21,7 +25,7 @@ public class FirebaseConfig {
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setStorageBucket("guide-me-timetable-image.firebasestorage.app")
+                    .setStorageBucket(bucketName)
                     .build();
 
             if (FirebaseApp.getApps().isEmpty()) {

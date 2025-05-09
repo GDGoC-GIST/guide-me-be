@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: your_url
+    username: your_username
+    password: your_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+firebase:
+  bucket-name: your_bucket_name.firebasestorage.app
+  url-format: https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media

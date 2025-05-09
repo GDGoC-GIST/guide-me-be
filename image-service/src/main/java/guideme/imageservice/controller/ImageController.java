@@ -17,9 +17,12 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> upload(
+            @RequestParam("userId") String userId,
+            @RequestParam("file") MultipartFile file)
+    {
         try {
-            String imagePath = imageService.uploadImage(file);
+            String imagePath = imageService.uploadImage(file, userId);
             return ResponseEntity.ok(Map.of("imagePath", imagePath));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
