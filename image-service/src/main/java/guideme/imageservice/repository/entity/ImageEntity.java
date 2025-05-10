@@ -15,8 +15,7 @@ import lombok.*;
 public class ImageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String uploaderId;
 
@@ -27,7 +26,7 @@ public class ImageEntity {
     private int height;
     private long sizeInBytes;
 
-    private LocalDateTime uploadedAt;
+    private long uploadedAt;
 
     public static ImageEntity toEntity(Image image) {
         return ImageEntity.builder()

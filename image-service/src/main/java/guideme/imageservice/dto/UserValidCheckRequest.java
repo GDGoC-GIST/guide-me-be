@@ -1,6 +1,5 @@
 package guideme.imageservice.dto;
 
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserCreateRequest {
+public class UserValidCheckRequest {
     private String studentId;
     private String email;
 }

@@ -1,4 +1,4 @@
-package guideme.imageservice.util.Id;
+package guideme.imageservice.util.clock;
 
 public interface ClockHolder {
     long current();

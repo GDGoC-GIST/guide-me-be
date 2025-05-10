@@ -1,4 +1,4 @@
-package guideme.imageservice.repository;
+package guideme.imageservice.repository.user;
 
 import guideme.imageservice.repository.entity.ImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,38 +1,45 @@
 package guideme.imageservice.domain;
 
+import guideme.imageservice.util.Id.IdHolder;
+import guideme.imageservice.util.clock.ClockHolder;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-@Setter
+@Builder(toBuilder = true)
+@AllArgsConstructor
 public class Image {
 
-    private Long id;
-    private String uploaderId;
+    private static final String JPG_PREFIX = ".jpg";
+    private final String id;
+    private final  String uploaderId;
 
-    private String filename;
-    private String filepath;
+    private final String filename;
+    private final String filepath;
 
-    private int width;
-    private int height;
-    private long sizeInBytes;
+    private final int width;
+    private final int height;
+    private final long sizeInBytes;
 
-    private LocalDateTime uploadedAt;
-    
-    @Builder
-    private Image(
-        Long id, String uploaderId, String filename, String filepath, int width, int height, long sizeInBytes, LocalDateTime uploadedAt
+    private long uploadedAt;
+
+    public static Image create(
+            IdHolder idHolder, ClockHolder clockHolder, String uploaderId
     ) {
-        this.id = id;
-        this.uploaderId = uploaderId;
-        this.filename = UUID.randomUUID() + ".jpg";
-        this.filepath = filepath;
-        this.width = width;
-        this.height = height;
-        this.sizeInBytes = sizeInBytes;
-        this.uploadedAt = LocalDateTime.now();
+        return Image.builder()
+                .id(idHolder.generate())
+                .uploaderId(uploaderId)
+                .filename(idHolder.generate() + JPG_PREFIX)
+                .uploadedAt(clockHolder.current())
+                .build();
+    }
+
+    public Image updateImageData(
+            String filepath, int width, int height, long sizeInBytes
+    ) {
+        return toBuilder().filepath(filepath).width(width).height(height).sizeInBytes(sizeInBytes).build();
     }
 
     // Methods

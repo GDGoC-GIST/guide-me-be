@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/news_test
+    username: root
+    #    password: your_password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      show-sql: true
+
+firebase:
+  bucket-name: your_bucket_name.firebasestorage.app
+  url-format: https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media
+
+server:
+  port: 9000

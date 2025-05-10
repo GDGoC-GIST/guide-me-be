@@ -1,7 +1,7 @@
 package guideme.imageservice.domain;
 
-import guideme.imageservice.dto.UserCreateRequest;
-import guideme.imageservice.util.Id.ClockHolder;
+import guideme.imageservice.dto.UserValidCheckRequest;
+import guideme.imageservice.util.clock.ClockHolder;
 import guideme.imageservice.util.Id.IdHolder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,14 +20,18 @@ public class User {
     private final Long createdAt;
     private final Long deletedAt;
 
-    public static User create(IdHolder idHolder, ClockHolder clockHolder, UserCreateRequest userCreateRequest) {
+    public static User create(IdHolder idHolder, ClockHolder clockHolder, UserValidCheckRequest userValidCheckRequest) {
         // name, semester -> null
         return User.builder()
                 .userId(idHolder.generate())
-                .email(userCreateRequest.getEmail())
-                .studentId(userCreateRequest.getStudentId())
+                .email(userValidCheckRequest.getEmail())
+                .studentId(userValidCheckRequest.getStudentId())
                 .role(UserRole.PENDING)
                 .createdAt(clockHolder.current())
                 .build();
+    }
+
+    public User signUp(String name, Integer semester) {
+        return toBuilder().name(name).semester(semester).role(UserRole.ABLE).build();
     }
 }
