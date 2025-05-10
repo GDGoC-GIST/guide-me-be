@@ -1,0 +1,24 @@
+auth:
+  oidc:
+    issuer: https://idp.gistory.me
+    authorize-uri: https://idp.gistory.me/authorize
+    token-uri: https://api.idp.gistory.me/oauth/token
+    client-id: guide_me
+    client-secret: secret
+    redirect-uri: https://api.guide-me.com/api/auth/login/callback
+    jwks-uri: https://api.idp.gistory.me/oauth/certs
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
+jwt:
+  secret: 1111
+  issuer: guide-me-auth
+
+server:
+  port: 9100

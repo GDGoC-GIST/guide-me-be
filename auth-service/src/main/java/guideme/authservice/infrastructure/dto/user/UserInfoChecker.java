@@ -16,6 +16,8 @@ public class UserInfoChecker {
 
     @Nullable
     private String nickname;
+
+    @Nullable
     private Integer semester;
 
 
