@@ -1,5 +1,6 @@
-package guideme.imageservice.domain;
+package guideme.imageservice.repository.entity;
 
+import guideme.imageservice.domain.Image;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;

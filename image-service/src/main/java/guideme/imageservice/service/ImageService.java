@@ -1,7 +1,7 @@
 package guideme.imageservice.service;
 
 import guideme.imageservice.domain.Image;
-import guideme.imageservice.domain.ImageEntity;
+import guideme.imageservice.repository.entity.ImageEntity;
 import guideme.imageservice.dto.ProcessedImage;
 import guideme.imageservice.repository.ImageRepository;
 import guideme.imageservice.util.FirebaseUploader;
