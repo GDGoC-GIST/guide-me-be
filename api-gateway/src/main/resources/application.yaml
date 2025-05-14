@@ -8,11 +8,11 @@ spring:
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
-  config:
-    import:
-      - classpath:application-prod.yaml
-      - classpath:application-local.yaml
   profiles:
     active: local
+#  config:
+#    import:
+#      - optional:classpath:application-prod.yaml
+#      - optional:classpath:application-local.yaml
 server:
   port: 8000
