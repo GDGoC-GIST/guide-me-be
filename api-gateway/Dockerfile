@@ -1,8 +1,14 @@
 FROM openjdk:17-slim
 
-ARG JAR_FILE=build/libs/api-gateway-*.jar
-COPY ${JAR_FILE} app.jar
+WORKDIR /app
+COPY ./*.jar app.jar
 
-EXPOSE 8000
+ARG SPRING_PROFILES_ACTIVE
+ARG PORT
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+ENV PORT=${PORT}
+
+EXPOSE ${PORT}
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

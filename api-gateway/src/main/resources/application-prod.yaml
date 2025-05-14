@@ -1,0 +1,28 @@
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: ${AUTH-SERVICE-PATH}
+          predicates:
+            - Path=/api/auth/**
+client:
+  auth-service:
+    url: ${AUTH-SERVICE-PATH}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
