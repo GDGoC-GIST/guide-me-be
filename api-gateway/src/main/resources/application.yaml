@@ -12,7 +12,6 @@ spring:
     import:
       - classpath:application-prod.yaml
       - classpath:application-local.yaml
-      - optional:configserver:http://config-server:8888
   profiles:
     active: local
 server:
