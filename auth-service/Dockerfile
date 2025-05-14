@@ -1,8 +1,8 @@
 FROM openjdk:17-slim
 
+WORKDIR /app
 COPY ./*.jar app.jar
 
-WORKDIR .
 
 ARG SPRING_PROFILES_ACTIVE
 ARG PORT
