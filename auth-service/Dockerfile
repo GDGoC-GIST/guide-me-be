@@ -2,9 +2,7 @@ FROM openjdk:17-slim
 ENV TZ=Asia/Seoul
 RUN apt-get update && apt-get install -y tzdata
 
-WORKDIR /app
-
-COPY --from=builder /build/build/libs/*.jar app.jar
+WORKDIR .
 
 ARG SPRING_PROFILES_ACTIVE
 ARG PORT
