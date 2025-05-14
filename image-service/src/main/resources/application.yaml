@@ -1,19 +1,13 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-
 spring:
   application:
-    name: image-service
+    name: user-service
   profiles:
     active: local
 
   config:
     import:
-      - "optional:configserver:"
-      - "optional:application-local.yaml"
+      - optional:configserver:8888
+      - classpath:application-prod.yaml
+      - classpath:application-local.yaml
 
 spring.cloud.config.fail-fast: true

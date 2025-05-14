@@ -13,5 +13,12 @@ firebase:
   bucket-name: your_bucket_name.firebasestorage.app
   url-format: https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
 server:
   port: 9000

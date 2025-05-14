@@ -1,5 +1,7 @@
 FROM openjdk:17-slim
 
+COPY ./*.jar app.jar
+
 WORKDIR .
 
 ARG SPRING_PROFILES_ACTIVE
