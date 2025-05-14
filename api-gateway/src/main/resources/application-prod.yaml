@@ -10,12 +10,12 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: ${AUTH-SERVICE-PATH}
+          uri: ${AUTH_SERVICE_PATH}
           predicates:
             - Path=/api/auth/**
 client:
   auth-service:
-    url: ${AUTH-SERVICE-PATH}
+    url: ${AUTH_SERVICE_PATH}
 
 management:
   endpoints:

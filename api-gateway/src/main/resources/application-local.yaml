@@ -4,3 +4,7 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+client:
+  auth-service:
+    url: http://localhost:9000
