@@ -6,4 +6,4 @@ spring:
   config:
     import:
       - classpath:application-local.yaml
-      - "optional:configserver:"
+      - classpath:application-prod.yaml
