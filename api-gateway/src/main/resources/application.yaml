@@ -10,9 +10,6 @@ spring:
             - Path=/api/auth/**
   profiles:
     active: local
-#  config:
-#    import:
-#      - optional:classpath:application-prod.yaml
-#      - optional:classpath:application-local.yaml
+
 server:
   port: 8000

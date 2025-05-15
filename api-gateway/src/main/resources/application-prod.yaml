@@ -14,6 +14,10 @@ spring:
           uri: ${AUTH_SERVICE_PATH}
           predicates:
             - Path=/api/auth/**
+        - id: user-service
+          uri: ${USER_SERVICE_PATH}
+          predicates:
+            - Path=/api/user/**
 client:
   auth-service:
     url: ${AUTH_SERVICE_PATH}
