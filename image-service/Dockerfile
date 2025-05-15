@@ -1,20 +1,17 @@
-FROM gradle:8.5-jdk17 AS builder
-WORKDIR /build
-COPY . .
-RUN gradle clean build -x test --no-daemon
-
 FROM openjdk:17-slim
-ENV TZ=Asia/Seoul
-RUN apt-get update && apt-get install -y tzdata
 
 WORKDIR /app
 
-COPY --from=builder /build/build/libs/*.jar app.jar
+COPY ./*.jar app.jar
 
-COPY --from=builder /build/src/main/resources ./resources
+COPY ./resources ./resources
 
-ENV SPRING_PROFILES_ACTIVE=prod
+ARG SPRING_PROFILES_ACTIVE
+ARG PORT
 
-EXPOSE 9000
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+ENV PORT=${PORT}
+
+EXPOSE ${PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -4,10 +4,4 @@ spring:
   profiles:
     active: local
 
-  config:
-    import:
-      - optional:configserver:8888
-      - classpath:application-prod.yaml
-      - classpath:application-local.yaml
-
 spring.cloud.config.fail-fast: true
