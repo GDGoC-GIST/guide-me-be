@@ -1,13 +1,6 @@
 spring:
   application:
     name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: auth-service
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/api/auth/**
   profiles:
     active: local
 
