@@ -13,7 +13,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class ImageServiceApplicationTests {
+public class UserServiceApplicationTests {
 
     @Autowired
     private ImageService imageService;
