@@ -6,9 +6,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/guideme
-    username: root
-    password: ${DB_PASSWORD:root}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -16,15 +16,14 @@ spring:
     show-sql: false
 
 firebase:
-  bucket-name: your_bucket_name.firebasestorage.app
+  bucket-name: ${BUCKET_NAME}
   url-format: https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://eureka:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
+    enabled: false
 
 server:
   port: 9000
