@@ -2,6 +2,7 @@ package guideme.authservice.controller;
 
 import guideme.authservice.infrastructure.dto.response.GlobalResponse;
 import guideme.authservice.infrastructure.dto.response.login.TokenResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/internal/api/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(
+        name = "verify",
+        description = "api gateway가 토큰 인증을 위하여 보내는 요청")
 public class JwtController {
 
     @GetMapping("/verify")
