@@ -3,7 +3,8 @@ spring:
     name: auth-service
   profiles:
     active: local
-  config:
-    import:
-      - classpath:application-local.yaml
-      - classpath:application-prod.yaml
+springdoc:
+  swagger-ui:
+    path: /api/auth/swagger-ui
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
