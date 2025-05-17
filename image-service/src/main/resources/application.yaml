@@ -3,5 +3,14 @@ spring:
     name: user-service
   profiles:
     active: local
+  cloud:
+    config:
+      fail-fast: true
 
-spring.cloud.config.fail-fast: true
+springdoc:
+  api-docs:
+    path: /api/user/v3/api-docs
+  swagger-ui:
+    path: /api/user/swagger-ui.index.html
+    url: /api/user/v3/api-docs
+    config-url: /api/user/v3/api-docs/swagger-config

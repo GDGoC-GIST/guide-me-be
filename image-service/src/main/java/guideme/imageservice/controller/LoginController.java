@@ -3,6 +3,7 @@ package guideme.imageservice.controller;
 import guideme.imageservice.dto.UserResponse;
 import guideme.imageservice.dto.UserValidCheckRequest;
 import guideme.imageservice.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/internal/api/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
+@Tag(
+        name = "login",
+        description = "api-gateway에서 호출합니다.")
 public class LoginController {
 
     private final UserService userService;
