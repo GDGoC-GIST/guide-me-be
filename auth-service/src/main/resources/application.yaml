@@ -4,7 +4,9 @@ spring:
   profiles:
     active: local
 springdoc:
+  api-docs:
+    path: /api/auth/v3/api-docs
   swagger-ui:
-    path: /api/auth/swagger-ui
-    config-url: /api/auth/v3/api-docs/swagger-config
+    path: /api/auth/swagger-ui.html
     url: /api/auth/v3/api-docs
+    config-url: /api/auth/v3/api-docs/swagger-config
