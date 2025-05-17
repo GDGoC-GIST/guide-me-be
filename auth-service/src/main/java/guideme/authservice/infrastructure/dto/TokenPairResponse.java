@@ -13,6 +13,6 @@ public class TokenPairResponse {
     private static final String TOKEN_TYPE = "Bearer";
     @JsonProperty("access_token")
     private String accessToken;
-    @JsonProperty("access_token")
+    @JsonProperty("refresh_token")
     private String refreshToken;
 }
