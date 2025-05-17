@@ -30,3 +30,13 @@ eureka:
 
 server:
   port: 9000
+
+logging:
+  level:
+    root: INFO
+    com.zaxxer.hikari: DEBUG
+    com.zaxxer.hikari.pool: DEBUG
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
+    org.springframework.jdbc.core: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: WARN
