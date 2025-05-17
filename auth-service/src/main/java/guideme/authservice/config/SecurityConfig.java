@@ -34,8 +34,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        authz -> authz.requestMatchers("/internal/**").authenticated().anyRequest().permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+//                .authorizeHttpRequests(
+//                        authz -> authz.requestMatchers("/internal/**").authenticated().anyRequest().permitAll())
                 .addFilterAfter(jwtAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(internalApiAuthFilter(), JwtAuthenticationFilter.class);
 
