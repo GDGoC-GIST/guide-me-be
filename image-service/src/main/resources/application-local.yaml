@@ -1,4 +1,8 @@
 spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/news_test
@@ -8,7 +12,8 @@ spring:
     hibernate:
       ddl-auto: create-drop
       show-sql: true
-
+  config:
+    import: configserver:http://localhost:8888
 firebase:
   bucket-name: your_bucket_name.firebasestorage.app
   url-format: https://firebasestorage.googleapis.com/v0/b/%s/o/%s?alt=media
