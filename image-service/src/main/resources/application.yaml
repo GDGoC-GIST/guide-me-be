@@ -3,9 +3,6 @@ spring:
     name: user-service
   profiles:
     active: local
-  cloud:
-    config:
-      fail-fast: true
 
 springdoc:
   api-docs:
