@@ -9,22 +9,17 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service-swagger-docs
+          uri: ${AUTH_SERVICE_PATH}
+          predicates:
+            - Path=/api/auth/v3/api-docs/**
+          filters:
+            - RewritePath=/api/auth/v3/api-docs/(?<segment>.*), /v3/api-docs/${segment}
+
         - id: auth-service-api
           uri: ${AUTH_SERVICE_PATH}
           predicates:
             - Path=/api/auth/**
-
-        - id: auth-service-swagger-docs
-          uri: ${AUTH_SERVICE_PATH}
-          predicates:
-            - Path=/v3/api-docs/auth/**
-          filters:
-            - RewritePath=/v3/api-docs/auth/(?<segment>.*), /v3/api-docs/${segment}
-
-        - id: auth-service-swagger-ui
-          uri: ${AUTH_SERVICE_PATH}
-          predicates:
-            - Path=/api/auth/swagger-ui/**
 
         - id: user-service-api
           uri: ${USER_SERVICE_PATH}
