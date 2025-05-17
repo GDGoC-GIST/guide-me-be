@@ -6,5 +6,5 @@ spring:
 springdoc:
   swagger-ui:
     path: /api/auth/swagger-ui
-    config-url: /v3/api-docs/swagger-config
-    url: /v3/api-docs
+    config-url: /api/auth/v3/api-docs/swagger-config
+    url: /api/auth/v3/api-docs
