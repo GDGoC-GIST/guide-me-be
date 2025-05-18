@@ -11,3 +11,19 @@ springdoc:
     path: /api/user/swagger-ui.index.html
     url: /api/user/v3/api-docs
     config-url: /api/user/v3/api-docs/swagger-config
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,readiness,liveness
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
