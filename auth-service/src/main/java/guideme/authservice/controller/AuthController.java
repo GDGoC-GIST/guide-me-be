@@ -41,7 +41,9 @@ public class AuthController {
     )
     public GlobalResponse<UserLoginResponse> gatAccessToken(@RequestParam("code") String code,
                                                             @RequestParam("state") String state) {
-        UserLoginResponse accessToken = authService.getAccessToken(code, state);
-        return GlobalResponse.success(accessToken, 200);
+        log.info("called : {} , {} ", code, state);
+        UserLoginResponse loginResponse = authService.getAccessToken(code, state);
+        log.info("access loginResponse : {}", loginResponse);
+        return GlobalResponse.success(loginResponse, 200);
     }
 }
