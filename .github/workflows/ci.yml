@@ -1,0 +1,52 @@
+name: monorepo-ci
+
+on:
+  pull_request:
+    paths:
+      - 'api-gateway/**'
+      - 'auth-service/**'
+      - 'image-service/**'
+      - 'user-service/**'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.changed-services.outputs.services }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed services
+        id: changed-services
+        run: |
+          echo "services=[]" >> "$GITHUB_OUTPUT"
+          changed=$(git diff --name-only origin/main...HEAD)
+          list="[]"
+          for service in api-gateway auth-service image-service user-service; do
+            if echo "$changed" | grep -q "^$service/"; then
+              list=$(echo "$list" | jq --arg s "$service" '. + [$s]')
+            fi
+          done
+          echo "services=$list" >> "$GITHUB_OUTPUT"
+
+  test-each:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ${{ fromJson(needs.detect-changes.outputs.services) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run test and coverage for ${{ matrix.service }}
+        working-directory: ${{ matrix.service }}
+        run: |
+          ./gradlew clean test jacocoTestReport jacocoCoverageVerification
