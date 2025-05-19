@@ -36,5 +36,4 @@ public class SignUpController {
     ) {
         return userService.getUserById(userId);
     }
-
 }
