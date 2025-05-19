@@ -38,7 +38,7 @@ public class OidcAuthService {
                 .queryParam("nonce", nonce)
                 .queryParam("redirect_uri", prop.getRedirectUri())
                 .queryParam("code_challenge", codeChallenge)
-                .queryParam("code_challenge_method", "SHA-256")
+                .queryParam("code_challenge_method", "S256")
                 .queryParam("prompt", "consent")
                 .build()
                 .encode()
