@@ -18,30 +18,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Authorization: Bearer {accessToken} → 검증 후 SecurityContext 채움
  */
-@Slf4j
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private final TokenService tokenService;
-
-    @Override
-    public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws ServletException, IOException {
-
-        String auth = req.getHeader("Authorization");
-        if (auth != null && auth.startsWith("Bearer ")) {
-            String tokenValue = auth.substring(7);
-            try {
-                Token token = tokenService.read(tokenValue);
-
-                var authorities = List.of(new SimpleGrantedAuthority(token.getRole()));
-                var authToken = new UsernamePasswordAuthenticationToken(token.getUserId(), null, authorities);
-
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            } catch (Exception e) {
-                log.debug("Invalid access token: {}", e.getMessage());
-            }
-        }
-        chain.doFilter(req, res);
-    }
-}
+//@Slf4j
+//@RequiredArgsConstructor
+//public class JwtAuthenticationFilter extends OncePerRequestFilter {
+//
+//    private final TokenService tokenService;
+//
+//    @Override
+//    public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+//            throws ServletException, IOException {
+//
+//        String auth = req.getHeader("Authorization");
+//        if (auth != null && auth.startsWith("Bearer ")) {
+//            String tokenValue = auth.substring(7);
+//            try {
+//                Token token = tokenService.read(tokenValue);
+//
+//                var authorities = List.of(new SimpleGrantedAuthority(token.getRole()));
+//                var authToken = new UsernamePasswordAuthenticationToken(token.getUserId(), null, authorities);
+//
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+//            } catch (Exception e) {
+//                log.debug("Invalid access token: {}", e.getMessage());
+//            }
+//        }
+//        chain.doFilter(req, res);
+//    }
+//}
