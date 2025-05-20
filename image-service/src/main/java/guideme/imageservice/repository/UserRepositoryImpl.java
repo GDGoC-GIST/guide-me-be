@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findByEmail(String email) {
-        return Optional.of(userJPARepository.findByEmail(email)).orElseThrow(() ->
+        return Optional.ofNullable(userJPARepository.findByEmail(email)).orElseThrow(() ->
                 new EntityNotFoundException("no user")).toModel();
     }
 
@@ -42,13 +42,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findByStudentId(String studentId) {
-        return Optional.of(userJPARepository.findByStudentId(studentId)).orElseThrow(() ->
+        return Optional.ofNullable(userJPARepository.findByStudentId(studentId)).orElseThrow(() ->
                 new EntityNotFoundException("no user")).toModel();
     }
 
     @Override
     public User findById(String userId) {
-        return Optional.of(userJPARepository.findByUserId(userId)).orElseThrow(
+        return Optional.ofNullable(userJPARepository.findByUserId(userId)).orElseThrow(
                 () -> new EntityNotFoundException("no user")
         ).toModel();
     }
