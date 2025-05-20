@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+
 public class GlobalResponse<T> {
     private final String timeStamp;
     private final int status;
@@ -22,20 +23,12 @@ public class GlobalResponse<T> {
     }
 
     public static <T> GlobalResponse<T> fail(T data, int status) {
-        return GlobalResponse.<T>builder()
-                .timeStamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
-                .status(status)
-                .isSuccess(false)
-                .data(data)
-                .build();
+        return GlobalResponse.<T>builder().timeStamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
+                .status(status).isSuccess(false).data(data).build();
     }
 
     public static <T> GlobalResponse<T> success(T data, int status) {
-        return GlobalResponse.<T>builder()
-                .timeStamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
-                .status(status)
-                .isSuccess(true)
-                .data(data)
-                .build();
+        return GlobalResponse.<T>builder().timeStamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
+                .status(status).isSuccess(true).data(data).build();
     }
 }

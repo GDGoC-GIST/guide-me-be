@@ -5,7 +5,6 @@ import guideme.authservice.infrastructure.dto.user.LoginAccessUser;
 import guideme.authservice.infrastructure.dto.user.UserInfoChecker;
 import java.util.Map;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,7 +33,7 @@ public class UserChecker {
 
     private Map<String, Object> getUserInfoFromUserService(LoginAccessUser accessUser) {
         Map<String, Object> body = getRequestBody(accessUser);
-        if (body == null || Boolean.FALSE.equals(body.get("isSuccess"))) {
+        if (body == null || Boolean.FALSE.equals(body.get("success"))) {
             throw new IllegalArgumentException("");
         }
         return body;
@@ -42,8 +41,7 @@ public class UserChecker {
 
     private Map<String, Object> getRequestBody(LoginAccessUser accessUser) {
         String url = USER_SERVICE_URL + "?email=" + accessUser.getEmail() + "&student_id=" + accessUser.getStudentId();
-        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, null, Map.class);
-        return response.getBody();
+        return restTemplate.exchange(url, HttpMethod.GET, null, Map.class).getBody();
     }
 
     private UserInfoChecker generateUserInfoChecker(Map<String, Object> body) {

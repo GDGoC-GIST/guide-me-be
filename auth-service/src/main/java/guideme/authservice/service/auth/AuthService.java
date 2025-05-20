@@ -80,7 +80,7 @@ public class AuthService {
             String studentId = claims.getStringClaim("studentid");
             UserDto userDto = userClient.findOrSignUp(email, studentId);
             TokenPairResponse tokenPair = tokenService.generateTokenPair(userDto);
-            return UserLoginResponse.of(userDto, tokenPair, userDto.getUserRole().equals("pending"));
+            return UserLoginResponse.of(userDto, tokenPair, userDto.getUserRole().equals("PENDING"));
         } catch (ParseException e) {
             throw new IllegalStateException("parseError");
         }

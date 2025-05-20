@@ -1,10 +1,12 @@
 package guideme.imageservice.controller;
 
+import guideme.imageservice.dto.GlobalResponse;
 import guideme.imageservice.dto.UserResponse;
 import guideme.imageservice.dto.UserSignUpRequest;
 import guideme.imageservice.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,17 +25,17 @@ public class SignUpController {
     private final UserService userService;
 
     @PostMapping()
-    public UserResponse signUp(
+    public GlobalResponse<UserResponse> signUp(
             @RequestHeader(name = "X-Client-Id") String userId,
             @RequestBody UserSignUpRequest userSignUpRequest
     ) {
-        return userService.userSignUp(userId, userSignUpRequest);
+        return GlobalResponse.success(userService.userSignUp(userId, userSignUpRequest), HttpStatus.CREATED.value());
     }
 
     @GetMapping
-    public UserResponse getUser(
+    public GlobalResponse<UserResponse> getUser(
             @RequestHeader(name = "X-Client-Id") String userId
     ) {
-        return userService.getUserById(userId);
+        return GlobalResponse.success(userService.getUserById(userId), HttpStatus.OK.value());
     }
 }

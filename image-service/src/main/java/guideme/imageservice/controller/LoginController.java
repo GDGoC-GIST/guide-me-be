@@ -1,12 +1,13 @@
 package guideme.imageservice.controller;
 
+import guideme.imageservice.dto.GlobalResponse;
 import guideme.imageservice.dto.UserResponse;
 import guideme.imageservice.dto.UserValidCheckRequest;
 import guideme.imageservice.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,11 @@ public class LoginController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public UserResponse userLogin(
+    public GlobalResponse<UserResponse> userLogin(
             @RequestParam String email,
             @RequestParam(name = "student_id") String studentId
     ) {
-            return userService.userCreate(new UserValidCheckRequest(studentId, email));
+        UserResponse userResponse = userService.userCreate(new UserValidCheckRequest(studentId, email));
+        return GlobalResponse.success(userResponse, HttpStatus.OK.value());
     }
 }
