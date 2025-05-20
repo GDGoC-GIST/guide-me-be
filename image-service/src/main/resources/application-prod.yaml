@@ -38,8 +38,8 @@ server:
 logging:
   level:
     root: INFO
-    com.zaxxer.hikari: DEBUG
-    com.zaxxer.hikari.pool: DEBUG
-    org.springframework.boot.autoconfigure.jdbc: DEBUG
-    org.springframework.jdbc.core: DEBUG
+#    com.zaxxer.hikari: DEBUG
+#    com.zaxxer.hikari.pool: DEBUG
+#    org.springframework.boot.autoconfigure.jdbc: DEBUG
+#    org.springframework.jdbc.core: DEBUG
 
