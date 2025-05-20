@@ -21,7 +21,6 @@ public class JWTDecoder {
     public DecodedJWT decode(String tokenValue) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
-
         try {
             return verifier.verify(tokenValue);
         } catch (JWTVerificationException e) {
