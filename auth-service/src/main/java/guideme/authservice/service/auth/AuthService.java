@@ -77,7 +77,7 @@ public class AuthService {
     private UserLoginResponse buildLoginResponseFromClaims(JWTClaimsSet claims) {
         try {
             String email = claims.getStringClaim("email");
-            String studentId = claims.getStringClaim("studentid");
+            String studentId = claims.getStringClaim("student_id");
             UserDto userDto = userClient.findOrSignUp(email, studentId);
             TokenPairResponse tokenPair = tokenService.generateTokenPair(userDto);
             return UserLoginResponse.of(userDto, tokenPair, userDto.getUserRole().equals("PENDING"));
