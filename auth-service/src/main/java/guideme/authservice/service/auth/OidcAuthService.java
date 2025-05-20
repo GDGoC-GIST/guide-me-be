@@ -34,13 +34,14 @@ public class OidcAuthService {
         String redirectionUrl = UriComponentsBuilder.fromHttpUrl(prop.getAuthorizeUri())
                 .queryParam("response_type", "code")
                 .queryParam("client_id", prop.getClientId())
-                .queryParam("scope", URLEncoder.encode("openid profile offline_access", StandardCharsets.UTF_8))
+                .queryParam("scope", "openid+profile+email+student_id")
                 .queryParam("state", state)
                 .queryParam("nonce", nonce)
-                .queryParam("redirect_uri", prop.getRedirectUri())    // ← 그대로
-                .queryParam("code_challenge", codeChallenge)          // ← 복원
+                .queryParam("redirect_uri", prop.getRedirectUri())
+                .queryParam("code_challenge", codeChallenge)
                 .queryParam("code_challenge_method", "S256")
                 .queryParam("prompt", "consent")
+
                 .build(true)                                          // 최종 encode
                 .toUriString();
 
