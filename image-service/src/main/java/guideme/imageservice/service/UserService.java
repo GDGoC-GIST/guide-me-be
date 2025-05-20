@@ -8,6 +8,7 @@ import guideme.imageservice.repository.user.UserRepository;
 import guideme.imageservice.util.clock.ClockHolder;
 import guideme.imageservice.util.Id.IdHolder;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,18 @@ public class UserService {
     public UserResponse userCreate(
             UserValidCheckRequest userValidCheckRequest
     ) {
-        try {
-            User user = userRepository.findByEmail(userValidCheckRequest.getEmail());
-            return UserResponse.create(user);
-        } catch (EntityNotFoundException e) {
-            User user = User.create(idHolder, clockHolder, userValidCheckRequest);
-            user = userRepository.save(user);
-            return UserResponse.create(user);
+        Optional<User> user = userRepository.findByEmail(userValidCheckRequest.getEmail());
+        if(user.isPresent()) {
+            return UserResponse.create(user.get());
         }
+        User createdUser = User.create(idHolder, clockHolder, userValidCheckRequest);
+        createdUser = userRepository.save(createdUser);
+        return UserResponse.create(createdUser);
+//        try {
+//            User user = userRepository.findByEmail(userValidCheckRequest.getEmail());
+//        } catch (EntityNotFoundException e) {
+
+//        }
     }
 
     // user info update -> 회원가입

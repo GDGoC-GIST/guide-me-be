@@ -18,9 +18,9 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserJPARepository userJPARepository;
 
     @Override
-    public User findByEmail(String email) {
-        return Optional.ofNullable(userJPARepository.findByEmail(email)).orElseThrow(() ->
-                new EntityNotFoundException("no user")).toModel();
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userJPARepository.findByEmail(email))
+                       .map(UserEntity::toModel);
     }
 
     @Override

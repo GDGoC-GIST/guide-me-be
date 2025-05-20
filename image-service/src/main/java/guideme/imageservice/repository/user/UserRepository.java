@@ -1,6 +1,7 @@
 package guideme.imageservice.repository.user;
 
 import guideme.imageservice.domain.User;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -8,7 +9,7 @@ public interface UserRepository {
 
     User signup(User user);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     User findByStudentId(String studentId);
 
