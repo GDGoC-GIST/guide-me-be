@@ -11,7 +11,6 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity.FormLoginSpec;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
-import org.springframework.security.web.server.authentication.ServerHttpBasicAuthenticationConverter;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 
 @Configuration
@@ -29,19 +28,13 @@ public class SecurityConfig {
 
         http.addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
-        return http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/actuator/health/**").permitAll()
-                        .pathMatchers("/api/auth/**").permitAll()
-                        .pathMatchers("/api/user/v3/api-docs").permitAll()
-                        .pathMatchers("/api/user/swagger-ui.index.html").permitAll()
-                        .pathMatchers("/api/user/v3/api-docs/swagger-config").permitAll()
-                        .anyExchange().authenticated()
-                )
+        return http.csrf(ServerHttpSecurity.CsrfSpec::disable).authorizeExchange(
+                        exchange -> exchange.pathMatchers("/actuator/health/**").permitAll().pathMatchers("/api/auth/**")
+                                .permitAll().pathMatchers("/api/user/v3/api-docs").permitAll()
+                                .pathMatchers("/api/user/swagger-ui.index.html").permitAll()
+                                .pathMatchers("/api/user/v3/api-docs/swagger-config").permitAll().anyExchange().authenticated())
                 .formLogin(FormLoginSpec::disable)
                 .addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .addFilterAfter(userIdInjectFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .build();
+                .addFilterAfter(userIdInjectFilter, SecurityWebFiltersOrder.AUTHENTICATION).build();
     }
 }
