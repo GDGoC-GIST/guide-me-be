@@ -5,7 +5,7 @@ auth:
     token-uri: https://api.idp.gistory.me/oauth/token
     client-id: guide_me
     client-secret: ${OIDC_CLIENT_SECRET}
-    redirect-uri: http://api.guideme.my/api/auth/login/callback
+    redirect-uri: https://api.guideme.my/api/auth/login/callback
     jwks-uri: https://api.idp.gistory.me/oauth/certs
 
 eureka:

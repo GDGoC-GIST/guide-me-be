@@ -2,6 +2,7 @@ package guideme.authservice.service.auth;
 
 import guideme.authservice.infrastructure.dto.response.login.LoginRedirectionResponse;
 import guideme.authservice.util.id.IdHolder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,12 +37,13 @@ public class OidcAuthService {
                 .queryParam("scope", "openid profile offline_access")
                 .queryParam("state", state)
                 .queryParam("nonce", nonce)
-                .queryParam("redirect_uri", prop.getRedirectUri())
+//                .queryParam("redirect_uri", prop.getRedirectUri())
+                .queryParam("redirect_uri", URLEncoder.encode(prop.getRedirectUri(), StandardCharsets.UTF_8))
                 .queryParam("code_challenge", codeChallenge)
                 .queryParam("code_challenge_method", "S256")
                 .queryParam("prompt", "consent")
-                .build()
-                .encode()
+                .build(false)
+//                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return new LoginRedirectionResponse(redirectionUrl);
