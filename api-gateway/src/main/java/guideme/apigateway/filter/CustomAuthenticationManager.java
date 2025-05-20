@@ -22,18 +22,17 @@ public class CustomAuthenticationManager implements ReactiveAuthenticationManage
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
         String token = authentication.getCredentials().toString();
-        try {
-            GlobalResponse<AuthVerificationResponse> result = authServiceClient.verify("Bearer " + token);
-            if (!result.success()) {
-                throw new IllegalArgumentException("token검증 실패");
-            }
-            AuthVerificationResponse res = result.data();
-            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(res.role()));
-            Authentication auth = new UsernamePasswordAuthenticationToken(
-                    res.userId(), null, authorities);
-            return Mono.just(auth);
-        } catch (Exception e) {
-            return Mono.error(new BadCredentialsException("Invalid token"));
-        }
+        return authServiceClient.verify("Bearer " + token)
+                .flatMap(result -> {
+                    if (!result.success()) {
+                        return Mono.error(new BadCredentialsException("Token 검증 실패"));
+                    }
+                    AuthVerificationResponse res = result.data();
+                    List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(res.role()));
+                    Authentication auth = new UsernamePasswordAuthenticationToken(
+                            res.userId(), null, authorities);
+                    return Mono.just(auth);
+                })
+                .onErrorMap(e -> new BadCredentialsException("Invalid token", e));
     }
 }

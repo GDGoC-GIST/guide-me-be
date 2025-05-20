@@ -21,6 +21,7 @@ public class TokenReaderImpl implements TokenReader {
 
     public Token handle(String tokenValue) {
         DecodedJWT jwt = jwtDecoder.decode(tokenValue);
+
         TokenReadRequest readRequest = parseToken(jwt);
         return Token.create(readRequest);
     }
