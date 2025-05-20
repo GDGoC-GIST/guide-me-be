@@ -17,10 +17,15 @@ public class UserIdInjectFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         return exchange.getPrincipal().cast(Authentication.class).flatMap(auth -> {
-            String userId = auth.getName();
-            log.info("called {} ",userId);
-            exchange.getRequest().mutate().headers(httpHeaders -> httpHeaders.add(X_USER_ID, userId)).build();
-            return chain.filter(exchange);
-        });
+                    String userId = auth.getName();
+                    log.info("called {} ", userId);
+                    ServerWebExchange mutatedExchange = exchange.mutate()
+                            .request(exchange.getRequest().mutate()
+                                    .headers(httpHeaders -> httpHeaders.add(X_USER_ID, userId))
+                                    .build())
+                            .build();
+                    return chain.filter(mutatedExchange);
+                })
+                .switchIfEmpty(chain.filter(exchange));
     }
 }
