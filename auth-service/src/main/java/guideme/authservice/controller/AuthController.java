@@ -6,6 +6,7 @@ import guideme.authservice.infrastructure.dto.response.user.UserLoginResponse;
 import guideme.authservice.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,10 @@ public class AuthController {
             summary = "로그인 콜백",
             description = "OIDC 서비스 제공자가 호출하여 클라이언트 인증을 완료합니다."
     )
-    public GlobalResponse<UserLoginResponse> gatAccessToken(@RequestParam("code") String code,
-                                                            @RequestParam("state") String state) {
+    public GlobalResponse<UserLoginResponse> gatAccessToken(@RequestParam(name = "code", required = false ) String code,
+                                                            @RequestParam(name = "state", required = false) String state,
+                                                            HttpServletRequest request) {
+        log.info("request url {} ", request.getRequestURI());
         log.info("called : {} , {} ", code, state);
         UserLoginResponse loginResponse = authService.getAccessToken(code, state);
         log.info("access loginResponse : {}", loginResponse);
