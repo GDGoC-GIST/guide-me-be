@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserChecker {
 
-    private static final String USER_SERVICE_URL = "http://user-service.guideme.svc.cluster.local/api/user/login";
+    private static final String USER_SERVICE_URL = "http://user-service.guideme.svc.cluster.local:9000/api/user/login";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
