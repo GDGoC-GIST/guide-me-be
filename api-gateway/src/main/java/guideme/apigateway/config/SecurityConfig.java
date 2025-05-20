@@ -22,9 +22,10 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/actuator/health/**").permitAll()
-                        .pathMatchers("/api/auth/**","/api/user/**").permitAll()
-                        .pathMatchers("/admin/**").hasRole("ADMIN")
-                        .pathMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .pathMatchers("/api/auth/**").permitAll()
+                        .pathMatchers("/api/user/v3/api-docs").permitAll()
+                        .pathMatchers("/api/user/swagger-ui.index.html").permitAll()
+                        .pathMatchers("/api/user/v3/api-docs/swagger-config").permitAll()
                         .anyExchange().authenticated()
                 )
                 .formLogin(FormLoginSpec::disable)

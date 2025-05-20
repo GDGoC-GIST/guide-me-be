@@ -24,7 +24,7 @@ public class SignUpController {
 
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping("/signup")
     public GlobalResponse<UserResponse> signUp(
             @RequestHeader(name = "X-Client-Id") String userId,
             @RequestBody UserSignUpRequest userSignUpRequest
@@ -32,7 +32,7 @@ public class SignUpController {
         return GlobalResponse.success(userService.userSignUp(userId, userSignUpRequest), HttpStatus.CREATED.value());
     }
 
-    @GetMapping
+    @GetMapping("/find")
     public GlobalResponse<UserResponse> getUser(
             @RequestHeader(name = "X-Client-Id") String userId
     ) {
