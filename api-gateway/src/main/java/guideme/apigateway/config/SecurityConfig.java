@@ -25,8 +25,6 @@ public class SecurityConfig {
     private static final List<String> WHITE_LIST = List.of(
             "/api/auth/",
             "/api/public/",
-            "/api/docs/",
-            "/api/open/",
             "/api/user/v3/api-docs",
             "/api/user/swagger-ui.index.html",
             "/api/user/v3/api-docs/swagger-config",

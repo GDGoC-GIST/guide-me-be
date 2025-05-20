@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class UserIdInjectFilter implements WebFilter {
 
-    private static final String X_USER_ID = "X-User-Id";
+    private static final String X_USER_ID = "X-Client-Id";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
