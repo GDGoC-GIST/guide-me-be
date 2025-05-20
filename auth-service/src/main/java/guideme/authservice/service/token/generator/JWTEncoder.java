@@ -24,8 +24,8 @@ public class JWTEncoder {
     }
 
     public String createToken(String userId, String role, long expireTerm) {
-        return JWT.create().withIssuer(issuer).withIssuedAt(Instant.ofEpochSecond(clockHolder.now()))
+        return JWT.create().withIssuer(issuer).withIssuedAt(Instant.ofEpochMilli(clockHolder.now()))
                 .withClaim(CLAIM_USER_ID, userId).withClaim(CLAIM_USER_ROLE, role)
-                .withExpiresAt(Instant.ofEpochSecond(clockHolder.now() + expireTerm)).sign(algorithm);
+                .withExpiresAt(Instant.ofEpochMilli(clockHolder.now() + expireTerm)).sign(algorithm);
     }
 }
