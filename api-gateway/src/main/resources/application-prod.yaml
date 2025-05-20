@@ -50,3 +50,11 @@ management:
     health:
       probes:
         enabled: true
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
+    org.springframework.web.reactive.function.client.ExchangeFilterFunction: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+    reactor.netty.http.client: DEBUG
+    org.springframework.web.server.adapter.WebHttpHandlerBuilder: DEBUG
