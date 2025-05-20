@@ -28,7 +28,7 @@ public class UserDto {
     }
 
     public static UserDto fromChecker(UserInfoChecker checker) {
-        if (checker.getUserRole().equals("pending")) {
+        if (checker.getUserRole().equals("PENDING")) {
             return UserDto.builder()
                     .userRole(checker.getUserRole())
                     .email(checker.getEmail())
