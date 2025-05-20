@@ -134,6 +134,7 @@ class UserCheckerTest {
         // then
         assertThat(result.getUserId()).isEqualTo("63b4ecab-856f-4277-8a1d-6ebe5afc4b77");
         assertThat(result.getEmail()).isEqualTo("test");
+        assertThat(result.getStudentId()).isEqualTo("test");
         assertThat(result.getUserRole()).isIn(List.of("ABLE", "PENDING"));
         assertThat(result.getNickname()).isEqualTo(expectedNickname);
         assertThat(result.getSemester()).isEqualTo(expectedSemester);

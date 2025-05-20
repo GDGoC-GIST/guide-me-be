@@ -46,7 +46,6 @@ public class AuthController {
         log.info("request url {} ", request.getRequestURI());
         log.info("called : {} , {} ", code, state);
         UserLoginResponse loginResponse = authService.getAccessToken(code, state);
-        log.info("access loginResponse : {}", loginResponse);
         return GlobalResponse.success(loginResponse, 200);
     }
 }
