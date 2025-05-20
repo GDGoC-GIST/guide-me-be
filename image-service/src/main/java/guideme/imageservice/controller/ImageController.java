@@ -1,5 +1,6 @@
 package guideme.imageservice.controller;
 
+import guideme.imageservice.dto.GlobalResponse;
 import guideme.imageservice.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,16 +27,16 @@ public class ImageController {
             summary = "사진 업로드",
             description = "시간표 사진을 업로드하여 firebase로 올립니다"
     )
-    public ResponseEntity<Map<String, String>> upload(
+    public GlobalResponse<Map<String, String>> upload(
             @RequestHeader("X-Client-Id") String userId,
             @RequestParam("file") MultipartFile file)
     {
         try {
             String imagePath = imageService.uploadImage(file, userId);
-            return ResponseEntity.ok(Map.of("imagePath", imagePath));
+            return GlobalResponse.success(Map.of("imagePath", imagePath), HttpStatus.OK.value());
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "업로드 실패: " + e.getMessage()));
+            return GlobalResponse.fail(Map.of("error", "업로드 실패: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
     }
 }
