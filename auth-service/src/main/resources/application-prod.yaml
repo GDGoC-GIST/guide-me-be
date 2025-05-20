@@ -3,7 +3,7 @@ auth:
     issuer: https://idp.gistory.me
     authorize-uri: https://idp.gistory.me/authorize
     token-uri: https://api.idp.gistory.me/oauth/token
-    client-id: guide_me
+    client-id: ${OIDC_CLIENT_ID}
     client-secret: ${OIDC_CLIENT_SECRET}
     redirect-uri: https://api.guideme.my/api/auth/login/callback
     jwks-uri: https://api.idp.gistory.me/oauth/certs
