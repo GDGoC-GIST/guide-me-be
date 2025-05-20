@@ -5,6 +5,7 @@ import guideme.apigateway.dto.AuthVerificationResponse;
 import guideme.apigateway.dto.GlobalResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationManager implements ReactiveAuthenticationManager {
@@ -22,6 +24,7 @@ public class CustomAuthenticationManager implements ReactiveAuthenticationManage
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
         String token = authentication.getCredentials().toString();
+        log.info("auth request {}", token);
         return authServiceClient.verify("Bearer " + token)
                 .flatMap(result -> {
                     if (!result.success()) {
