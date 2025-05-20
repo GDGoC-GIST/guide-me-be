@@ -5,8 +5,10 @@ import guideme.authservice.infrastructure.dto.TokenReadRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class Token {
     private final String userId;
     private final String role;
