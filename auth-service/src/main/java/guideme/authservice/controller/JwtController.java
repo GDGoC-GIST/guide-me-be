@@ -36,13 +36,15 @@ public class JwtController {
     ) {
         String tokenValue = auth.substring(7);
         try {
+            log.info(tokenValue);
             Token token = tokenService.read(tokenValue);
+            log.info(token.toString());
             String role = token.getRole();
             String userId = token.getUserId();
             TokenResponse tokenInfo = new TokenResponse(userId, role);
             return GlobalResponse.success(tokenInfo, HttpStatus.OK.value());
         } catch (Exception e) {
-            log.debug("Invalid access token: {}", e.getMessage());
+            log.info("Invalid access token: {}", e.getMessage());
             return GlobalResponse.fail(null, HttpStatus.UNAUTHORIZED.value());
         }
     }
