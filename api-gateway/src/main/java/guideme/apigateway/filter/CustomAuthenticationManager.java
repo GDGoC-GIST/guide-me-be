@@ -36,6 +36,8 @@ public class CustomAuthenticationManager implements ReactiveAuthenticationManage
                             res.userId(), null, authorities);
                     return Mono.just(auth);
                 })
+                .doOnError(e -> log.error(e.toString()))
                 .onErrorMap(e -> new BadCredentialsException("Invalid token", e));
     }
+
 }

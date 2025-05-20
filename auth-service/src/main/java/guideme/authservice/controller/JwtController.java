@@ -32,7 +32,7 @@ public class JwtController {
 
     @GetMapping("/verify")
     public GlobalResponse<TokenResponse> verify(
-            @RequestHeader String auth
+            @RequestHeader("Authorization") String auth
     ) {
         String tokenValue = auth.substring(7);
         try {

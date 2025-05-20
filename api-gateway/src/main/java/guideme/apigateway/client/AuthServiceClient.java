@@ -21,7 +21,7 @@ public class AuthServiceClient {
 
     public Mono<GlobalResponse<AuthVerificationResponse>> verify(String token) {
         return webClientBuilder.build()
-                .post()
+                .get()
                 .uri(authURL + "/api/auth/verify")
                 .header("Authorization", token)
                 .retrieve()
