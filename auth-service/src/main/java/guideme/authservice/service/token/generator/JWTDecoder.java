@@ -6,9 +6,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JWTDecoder {
@@ -24,6 +26,7 @@ public class JWTDecoder {
         try {
             return verifier.verify(tokenValue);
         } catch (JWTVerificationException e) {
+            log.error(e.toString());
             throw new RuntimeException(e);
         }
     }
