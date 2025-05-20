@@ -26,7 +26,7 @@ public class SecurityConfig {
             "/api/auth/",
             "/api/public/",
             "/api/user/v3/api-docs",
-            "/api/user/swagger-ui.index.html",
+            "/api/user/swagger-ui/index.html",
             "/api/user/v3/api-docs/swagger-config",
             "/actuator/health"
     );
@@ -41,7 +41,7 @@ public class SecurityConfig {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges.pathMatchers("/actuator/health/**").permitAll().pathMatchers("/api/auth/**")
                         .permitAll().pathMatchers("/api/user/v3/api-docs").permitAll()
-                        .pathMatchers("/api/user/swagger-ui.index.html").permitAll()
+                        .pathMatchers("/api/user/swagger-ui/index.html").permitAll()
                         .pathMatchers("/api/user/v3/api-docs/swagger-config").permitAll()
                 .anyExchange().authenticated())
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
