@@ -30,7 +30,7 @@ public class UserIdInjectFilter implements WebFilter {
                             .build();
                     return chain.filter(exchange.mutate().request(mutatedRequest).build());
                 })
-                .switchIfEmpty(chain.filter(exchange))     // 🔑 no authentication → just continue
-                .onErrorResume(e -> chain.filter(exchange)); // 🔑 any error → still continue
+                .switchIfEmpty(chain.filter(exchange))
+                .onErrorResume(e -> chain.filter(exchange));
     }
 }
