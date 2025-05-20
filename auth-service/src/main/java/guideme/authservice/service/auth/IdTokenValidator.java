@@ -56,7 +56,7 @@ public class IdTokenValidator {
                 throw new JwtValidationException("token_expired",
                         error(OAuth2ErrorCodes.INVALID_TOKEN, "Token is expired or exp claim is missing"));
             }
-            if (c.getIntegerClaim("studentid") == null || c.getStringClaim("email") == null) {
+            if (c.getStringClaim("student_id") == null || c.getStringClaim("email") == null) {
                 throw new JwtValidationException("no claims expected",
                         error(OAuth2ErrorCodes.INVALID_TOKEN, "studentid or email is missing"));
             }
