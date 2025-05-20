@@ -34,16 +34,14 @@ public class OidcAuthService {
         String redirectionUrl = UriComponentsBuilder.fromHttpUrl(prop.getAuthorizeUri())
                 .queryParam("response_type", "code")
                 .queryParam("client_id", prop.getClientId())
-                .queryParam("scope", "openid profile offline_access")
+                .queryParam("scope", URLEncoder.encode("openid profile offline_access", StandardCharsets.UTF_8))
                 .queryParam("state", state)
                 .queryParam("nonce", nonce)
-//                .queryParam("redirect_uri", prop.getRedirectUri())
-                .queryParam("redirect_uri", URLEncoder.encode(prop.getRedirectUri(), StandardCharsets.UTF_8))
-                .queryParam("code_challenge", codeChallenge)
+                .queryParam("redirect_uri", prop.getRedirectUri())    // ← 그대로
+                .queryParam("code_challenge", codeChallenge)          // ← 복원
                 .queryParam("code_challenge_method", "S256")
                 .queryParam("prompt", "consent")
-                .build(false)
-//                .encode(StandardCharsets.UTF_8)
+                .build(true)                                          // 최종 encode
                 .toUriString();
 
         return new LoginRedirectionResponse(redirectionUrl);
