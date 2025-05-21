@@ -1,3 +1,11 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka.guideme.svc.cluster.local:9092
+    consumer:
+      group-id: guideme
+    producer:
+      bootstrap-servers: kafka.guideme.svc.cluster.local:9092
+
 auth:
   oidc:
     issuer: https://idp.gistory.me

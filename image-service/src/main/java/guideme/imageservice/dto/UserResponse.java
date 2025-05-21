@@ -1,6 +1,6 @@
 package guideme.imageservice.dto;
 
-import guideme.imageservice.domain.User;
+import guideme.imageservice.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

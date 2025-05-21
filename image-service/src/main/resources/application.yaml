@@ -3,6 +3,13 @@ spring:
     name: user-service
   profiles:
     active: local
+  kafka:
+    bootstrap-servers: http://localhost:9092
+    consumer:
+      group-id: guideme
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: http://localhost:9092
 
 springdoc:
   api-docs:

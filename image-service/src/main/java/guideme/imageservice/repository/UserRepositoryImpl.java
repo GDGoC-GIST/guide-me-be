@@ -1,6 +1,6 @@
 package guideme.imageservice.repository;
 
-import guideme.imageservice.domain.User;
+import guideme.imageservice.domain.user.User;
 import guideme.imageservice.repository.entity.UserEntity;
 import guideme.imageservice.repository.user.UserJPARepository;
 import guideme.imageservice.repository.user.UserRepository;
@@ -57,5 +57,10 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean checkExistUser(String email) {
         UserEntity userEntity = userJPARepository.findByEmail(email);
         return userEntity != null;
+    }
+
+    @Override
+    public void delete(String userId) {
+        userJPARepository.deleteById(userId);
     }
 }
