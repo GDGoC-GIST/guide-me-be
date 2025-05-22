@@ -1,8 +1,7 @@
 package guideme.imageservice.repository.entity;
 
-import guideme.imageservice.domain.User;
-import guideme.imageservice.domain.UserRole;
-import jakarta.annotation.Nullable;
+import guideme.imageservice.domain.user.User;
+import guideme.imageservice.domain.user.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

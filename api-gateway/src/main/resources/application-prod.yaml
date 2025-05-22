@@ -26,17 +26,6 @@ spring:
           predicates:
             - Path=/api/user/**
 
-        - id: user-service-swagger-docs
-          uri: ${USER_SERVICE_PATH}
-          predicates:
-            - Path=/v3/api-docs/user/**
-          filters:
-            - RewritePath=/v3/api-docs/user/(?<segment>.*), /v3/api-docs/${segment}
-
-        - id: user-service-swagger-ui
-          uri: ${USER_SERVICE_PATH}
-          predicates:
-            - Path=/api/user/swagger-ui/**
 client:
   auth-service:
     url: ${AUTH_SERVICE_PATH}

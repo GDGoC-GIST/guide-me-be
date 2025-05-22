@@ -28,22 +28,17 @@ public class UserDto {
     }
 
     public static UserDto fromChecker(UserInfoChecker checker) {
-        if (checker.getUserRole().equals("PENDING")) {
-            return UserDto.builder()
-                    .userRole(checker.getUserRole())
-                    .email(checker.getEmail())
-                    .userId(checker.getUserId())
-                    .studentId(checker.getStudentId())
-                    .build();
-        }
-        return UserDto.builder()
-                .userRole(checker.getUserRole())
-                .email(checker.getEmail())
+        UserDto.UserDtoBuilder builder = UserDto.builder()
                 .userId(checker.getUserId())
+                .userRole(checker.getUserRole())
                 .studentId(checker.getStudentId())
-                .nickname(checker.getNickname())
-                .semester(checker.getSemester())
-                .build();
+                .email(checker.getEmail());
+
+        if (!"PENDING".equals(checker.getUserRole())) {
+            builder.nickname(checker.getNickname())
+                    .semester(checker.getSemester());
+        }
+        return builder.build();
     }
 
 }

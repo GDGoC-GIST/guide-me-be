@@ -1,6 +1,6 @@
 package guideme.imageservice.repository.user;
 
-import guideme.imageservice.domain.User;
+import guideme.imageservice.domain.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -16,5 +16,7 @@ public interface UserRepository {
     boolean checkExistUser(String userId);
 
     User findById(String userId);
+
+    void delete(String userId);
 }
 

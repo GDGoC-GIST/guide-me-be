@@ -1,4 +1,4 @@
-package guideme.imageservice.domain;
+package guideme.imageservice.domain.user;
 
 import guideme.imageservice.dto.UserValidCheckRequest;
 import guideme.imageservice.util.clock.ClockHolder;
