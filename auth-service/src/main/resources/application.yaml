@@ -4,12 +4,12 @@ spring:
   profiles:
     active: local
   kafka:
-    bootstrap-servers: http://localhost:9092
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: guideme
       auto-offset-reset: earliest
     producer:
-      bootstrap-servers: http://localhost:9092
+      bootstrap-servers: localhost:9092
 springdoc:
   api-docs:
     path: /api/auth/v3/api-docs
@@ -17,3 +17,25 @@ springdoc:
     path: /api/auth/swagger-ui.index.html
     url: /api/auth/v3/api-docs
     config-url: /api/auth/v3/api-docs/swagger-config
+otel:
+
+  instrumentation:
+    spring-web:
+      enabled: true
+  exporter:
+    otlp:
+      protocol: http/protobuf
+      endpoint: http://localhost:4318
+    traces:
+      exporter: jaeger
+  logs:
+    exporter: none
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: "%5p [svc=${spring.application.name},traceId=%X{traceId},spanId=%X{spanId}]"
+

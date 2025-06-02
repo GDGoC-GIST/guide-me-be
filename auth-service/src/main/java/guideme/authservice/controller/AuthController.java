@@ -25,10 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping()
-    @Operation(
-            summary = "로그인 요청",
-            description = "클라이언트가 인증을 시작할 수 있도록 로그인 URL을 제공합니다."
-    )
+    @Operation(summary = "로그인 요청", description = "클라이언트가 인증을 시작할 수 있도록 로그인 URL을 제공합니다.")
     public GlobalResponse<LoginRedirectionResponse> getLoginRequest() {
         LoginRedirectionResponse loginUrl = authService.getLoginUrl();
         return GlobalResponse.success(loginUrl, HttpStatus.OK.value());
@@ -36,11 +33,8 @@ public class AuthController {
 
 
     @GetMapping("/callback")
-    @Operation(
-            summary = "로그인 콜백",
-            description = "OIDC 서비스 제공자가 호출하여 클라이언트 인증을 완료합니다."
-    )
-    public GlobalResponse<UserLoginResponse> gatAccessToken(@RequestParam(name = "code", required = false ) String code,
+    @Operation(summary = "로그인 콜백", description = "OIDC 서비스 제공자가 호출하여 클라이언트 인증을 완료합니다.")
+    public GlobalResponse<UserLoginResponse> gatAccessToken(@RequestParam(name = "code", required = false) String code,
                                                             @RequestParam(name = "state", required = false) String state,
                                                             HttpServletRequest request) {
         log.info("request url {} ", request.getRequestURI());
