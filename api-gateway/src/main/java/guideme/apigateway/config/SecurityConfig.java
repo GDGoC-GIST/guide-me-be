@@ -70,6 +70,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
     @Bean
     public CorsWebFilter corsWebFilter(CorsConfigurationSource source) {
         return new CorsWebFilter(source);
