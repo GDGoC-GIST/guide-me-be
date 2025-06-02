@@ -6,3 +6,35 @@ spring:
 
 server:
   port: 8000
+
+#otel:
+#  resource:
+#    attributes:
+#      service.name: api-gateway
+#  instrumentation:
+#    spring-webflux:
+#      enabled: true
+#    reactor-netty:
+#      enabled: true     # ← 내부 WebClient 호출에 필요
+#  exporter:
+#    otlp:
+#      protocol: http/protobuf
+#      endpoint: http://localhost:4318
+#    traces:
+#      exporter: jaeger
+#  logs:
+#    exporter: none
+#  metrics:
+#    exporter: none
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0
+#    baggage:
+#      remote-fields: userId,sessionId
+#logging:
+#  pattern:
+#    level: "%5p [svc=${spring.application.name},traceId=%X{traceId},spanId=%X{spanId}]"
+#  level:
+#    io:
+#      opentelemetry: DEBUG
