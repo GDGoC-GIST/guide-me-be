@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.RequestPath;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity.CorsSpec;
 import org.springframework.security.config.web.server.ServerHttpSecurity.FormLoginSpec;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
@@ -38,7 +39,9 @@ public class SecurityConfig {
         authenticationWebFilter.setServerAuthenticationConverter(new BearerTokenConverter());
         authenticationWebFilter.setSecurityContextRepository(NoOpServerSecurityContextRepository.getInstance());
 
-        return http.csrf(ServerHttpSecurity.CsrfSpec::disable).authorizeExchange(
+        return http
+                .cors(CorsSpec::disable)
+                .csrf(ServerHttpSecurity.CsrfSpec::disable).authorizeExchange(
                         exchanges -> exchanges
                                 .pathMatchers("/actuator/health/**").permitAll()
                                 .pathMatchers("/api/auth/**").permitAll()
@@ -59,20 +62,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*");
-        config.setAllowedMethods(List.of("*"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false);
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*"); // 모든 도메인 허용 (Spring 2.4+는 addAllowedOrigin 대신 addAllowedOriginPattern 사용)
+        config.addAllowedMethod("*");        // GET, POST, OPTIONS 등
+        config.addAllowedHeader("*");        // 모든 헤더 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
-
-    @Bean
-    public CorsWebFilter corsWebFilter(CorsConfigurationSource source) {
+        source.registerCorsConfiguration("/**", config); // 모든 경로에 대해 CORS 설정 적용
         return new CorsWebFilter(source);
     }
 
