@@ -3,7 +3,16 @@ spring:
     name: api-gateway
   profiles:
     active: local
-
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: ["*"] # allowCredentials와 함께 쓰려면 이거 사용
+            allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+            allowedHeaders: ["*"]
+            allowCredentials: true
 server:
   port: 8000
 
